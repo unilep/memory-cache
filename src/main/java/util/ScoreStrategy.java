@@ -1,9 +1,13 @@
-package cache.util;
+package util;
 
 public enum ScoreStrategy {
-	HIT(5), MISS(19);
+	HIT(19), MISS(5);
 	int score;
 	ScoreStrategy(int score) {
 		this.score = score;
+	}
+
+	public int getScore() {
+		return score;
 	}
 }

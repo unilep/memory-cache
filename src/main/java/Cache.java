@@ -1,8 +1,6 @@
-package cache;
-
-import cache.algorithm.CacheAlgorithm;
-import cache.util.Node;
-import cache.util.ScoreStrategy;
+import algorithm.CacheAlgorithm;
+import util.Node;
+import util.ScoreStrategy;
 
 public class Cache<K, V> implements CacheContainer<K, V> {
 
@@ -17,7 +15,7 @@ public class Cache<K, V> implements CacheContainer<K, V> {
 	public Cache(CacheAlgorithm cacheAlgorithm, int cacheSize) {
 
 		if(cacheSize < DEFAULT_CACHE_SIZE) {
-			throw new IllegalArgumentException("Cache size must be greater than "+DEFAULT_CACHE_SIZE);
+			throw new IllegalArgumentException("Cache size must be greater than " + DEFAULT_CACHE_SIZE);
 		}
 		
 		cacheAlgorithm.setCacheSize(cacheSize);
@@ -25,10 +23,15 @@ public class Cache<K, V> implements CacheContainer<K, V> {
 	}
 	
 	@Override
-	public ScoreStrategy find(K key, V value) {
-		return cacheAlgorithm.find(key, new Node(value));
+	public ScoreStrategy find(K key) {
+		return cacheAlgorithm.find(key);
 	}
-	
+
+	@Override
+	public void put(K key, V value) {
+		cacheAlgorithm.put(key, value);
+	}
+
 	@Override
 	public String getResourceInformation() {
 		return cacheAlgorithm.getCacheInformations();
