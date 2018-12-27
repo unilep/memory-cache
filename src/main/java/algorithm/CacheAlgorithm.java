@@ -1,7 +1,5 @@
 package algorithm;
 
-import util.Node;
-import util.NodeUtility;
 import util.ScoreStrategy;
 
 import java.util.HashMap;
@@ -10,22 +8,17 @@ import java.util.Map;
 
 public abstract class CacheAlgorithm {
 
-	protected NodeUtility nodeUtility;
+	private int cacheSize;
 	protected final Map<Object, Object> hashedNodes = new HashMap<>();
-	protected int cacheSize;
-	
-	protected boolean isFull() {
-		return hashedNodes.size() == cacheSize;
-	}
-	
+
 	public abstract ScoreStrategy find(Object key);
 
-	public abstract void put(Object key, Object value);
+	public abstract void put(Object key);
 
-	public String getCacheInformations() {
-		return nodeUtility.retriveHeadToTail();
+	public boolean isFull() {
+		return hashedNodes.size() == cacheSize;
 	}
-	
+
 	public final int getCacheSize() {
 		return cacheSize;
 	}

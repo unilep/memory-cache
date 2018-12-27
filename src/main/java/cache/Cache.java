@@ -1,8 +1,9 @@
+package cache;
+
 import algorithm.CacheAlgorithm;
-import util.Node;
 import util.ScoreStrategy;
 
-public class Cache<K, V> implements CacheContainer<K, V> {
+public class Cache<K> implements CacheContainer<K> {
 
 	private static final int DEFAULT_CACHE_SIZE = 3;
 	
@@ -13,9 +14,8 @@ public class Cache<K, V> implements CacheContainer<K, V> {
 	}
 	
 	public Cache(CacheAlgorithm cacheAlgorithm, int cacheSize) {
-
 		if(cacheSize < DEFAULT_CACHE_SIZE) {
-			throw new IllegalArgumentException("Cache size must be greater than " + DEFAULT_CACHE_SIZE);
+			throw new IllegalArgumentException("cache.Cache size must be greater than " + DEFAULT_CACHE_SIZE);
 		}
 		
 		cacheAlgorithm.setCacheSize(cacheSize);
@@ -28,23 +28,8 @@ public class Cache<K, V> implements CacheContainer<K, V> {
 	}
 
 	@Override
-	public void put(K key, V value) {
-		cacheAlgorithm.put(key, value);
+	public void put(K key) {
+		cacheAlgorithm.put(key);
 	}
 
-	@Override
-	public String getResourceInformation() {
-		return cacheAlgorithm.getCacheInformations();
-	}
-
-	public int getCacheSize() {
-		return cacheAlgorithm.getCacheSize();
-	}
-
-	public void setCacheSize(int cacheSize) {
-		cacheAlgorithm.setCacheSize(cacheSize);
-	}
-
-	
-	
 }

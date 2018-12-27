@@ -1,6 +1,8 @@
 
 import algorithm.LFUAlgorithm;
 import algorithm.LRUAlgorithm;
+import cache.Cache;
+import cache.CacheContainer;
 import org.junit.Before;
 import org.junit.Test;
 import util.ScoreStrategy;
@@ -10,7 +12,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
+/**
+ * 알파벳 대문자가 Key
+ * 알파벳 소문자가 Key에 해당하는 Value라고 정의한다.
+ */
 public class CacheTest {
 
     private PrintStream ps = System.out;
@@ -30,31 +35,27 @@ public class CacheTest {
         ps.println(list);
     }
 
-    private void testcode(CacheContainer cacheContainer) {
-        long score = list.stream()
+    private long testcode(CacheContainer cacheContainer) {
+        return list.stream()
                 .map(string -> {
-                    final int hashCode = string.hashCode();
-                    ScoreStrategy scoreStrategy = cacheContainer.find(hashCode);
-                    if (scoreStrategy == ScoreStrategy.MISS) {
-                        cacheContainer.put(hashCode, string);
-                    }
+                    ScoreStrategy scoreStrategy = cacheContainer.find(string);
                     return scoreStrategy.getScore();
                 })
                 .reduce(0, Integer::sum);
-
-        ps.printf("LRU score : %d\n", score);
     }
 
     @Test
     public void lru() {
-        CacheContainer<Integer, String> cacheContainer = new Cache<Integer, String>(new LRUAlgorithm());
-        testcode(cacheContainer);
+        CacheContainer<String> cacheContainer = new Cache<>(new LRUAlgorithm());
+        long score = testcode(cacheContainer);
+        System.out.println("LRU score : " + score);
     }
 
     @Test
     public void lfu() {
-        CacheContainer<Integer, String> cacheContainer = new Cache<Integer, String>(new LFUAlgorithm());
-        testcode(cacheContainer);
+        CacheContainer<String> cacheContainer = new Cache<>(new LFUAlgorithm());
+        long score = testcode(cacheContainer);
+        System.out.println("LFU score : " + score);
     }
 
 }
